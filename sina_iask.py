@@ -130,10 +130,11 @@ class SinaIaskSpider(object):
             for item in soup.find_all(class_='answer'):
                 if not item.find(class_='answer_cn'):
                     continue
-                myquestions.append([item.find(class_='answer_cn').get_text().strip(),
+                myquestions.append([item.find(class_='dldoi').get_text().strip(),
+                                    item.find(class_='answer_cn').get_text().strip(),
                                     item.find(class_='answer_right').get_text().strip(),''])
                 if myquestions[-1][1]:
-                    myquestions[-1][2] = ": %s" % item.find("a").attrs.get('href').replace(
+                    myquestions[-1][3] = "%s" % item.find("a").attrs.get('href').replace(
                         'https://iask.sina.com.cn/b/', '').replace('.html?kindof=IQ', '').replace('.html?kindof=MA', '')
             time.sleep(0.5)
             if not soup.find(id="currentPage") or not soup.find(class_="paging"):
@@ -144,10 +145,10 @@ class SinaIaskSpider(object):
             page += 1
         for question in myquestions:
             data_qa=data_orgin
-            data_qa.question_id=question[2]
+            data_qa.question_id=question[3]
             data_qa.question=question[0]
-            data_qa.answer=question[0]
-            data_qa.answer_status=question[1]
+            data_qa.answer=question[1]
+            data_qa.answer_status=question[2]
             if len(data_qa.question)<=255:
                 sina_iask_Model.question_answer_data_update(data_qa)
         return self.Account(username, s)
