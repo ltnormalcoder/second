@@ -20,6 +20,12 @@ class QuestionAnswer(BaseModel):
 
     class Meta:
         table_name = 'question_answer'
+class Config(BaseModel):
+    name = CharField(null=True)
+    value = CharField(null=True)
+    status = CharField(null=True)
+    class Meta:
+        table_name = 'config'
 class Question_answer_data(object):
     def __init__(self):
         self.question_id=''
@@ -44,3 +50,7 @@ def question_answer_data_update(data_qa):
         Ques_id = QuestionAnswer.insert(data).execute()
     else:
         Ques= QuestionAnswer.update(data).where(QuestionAnswer.question ==data['question']).execute()
+def update_config(name,data):
+    Ques= Config.update(data).where(Config.name==name).execute()
+def get_config(name):
+    return Config.get(Config.name==name)
