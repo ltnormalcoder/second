@@ -54,3 +54,14 @@ def update_config(name,data):
     Ques= Config.update(data).where(Config.name==name).execute()
 def get_config(name):
     return Config.get(Config.name==name)
+def clear(word):
+    return  word.replace('"', '').replace("\n", "").replace(' ', '').strip().replace('  ', '')
+def somelist(list_path):
+  some_list=[]
+  some_all=open(list_path,"r").read().split('\n')
+  some_list= list(set(some_list))
+  for someone in some_all:
+    someone=clear(someone)
+    if someone != '':
+      some_list.append(someone)
+  return some_list

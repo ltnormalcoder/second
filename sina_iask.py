@@ -11,10 +11,10 @@ from requests import Session
 from bs4 import BeautifulSoup
 import sina_iask_Model
 
-account_ls = [
-    ["18237681391", "123456789"],
-    ["17837154479", "123456789"]
-]
+account_ls=[]
+sina_iask_Model.somelist('res/account.txt')
+for idx,x in enumerate(sina_iask_Model.somelist('res/account.txt')):
+    account_ls.append(x.split(','))
 
 class SinaIaskSpider(object):
     headers = {
@@ -54,7 +54,7 @@ class SinaIaskSpider(object):
     def __init__(self, proxy_on=False):
         self.account_ls = [self.create_account(*account) for account in account_ls]
         self.proxy_on = proxy_on
-        self.proxy_api = open("res/proxy.txt", "r").readline() if self.proxy_on else ''
+        self.proxy_api = open("res/proxyapi.txt", "r").readline() if self.proxy_on else ''
 
     def create_account(self, username, password):
         s = Session()
@@ -289,4 +289,4 @@ class SinaIaskSpider(object):
 
 
 if __name__ == '__main__':
-    SinaIaskSpider(proxy_on=False).crawl()
+    SinaIaskSpider(proxy_on=True).crawl()
